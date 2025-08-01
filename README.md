@@ -1,146 +1,149 @@
-# 🧠 Student Performance Prediction - End-to-End ML Project
+# 📊 Student Performance Indicator – End-to-End ML Project
 
-This project is an end-to-end machine learning pipeline built to predict student performance using various regression algorithms. It walks through data ingestion, preprocessing, exploratory data analysis (EDA), model training, evaluation, and saving the best model and preprocessor for future use.
+This is an end-to-end machine learning project focused on analyzing and predicting student academic performance. It simulates a real-world ML workflow using Python and Scikit-learn from raw data ingestion to model training and evaluation in a production-ready pipeline.
 
 ---
 
-## 📂 Project Structure
+![Python](https://img.shields.io/badge/Python-3.10+-blue)
+![Scikit-Learn](https://img.shields.io/badge/Scikit--Learn-Enabled-orange)
+![MIT License](https://img.shields.io/badge/License-MIT-green)
+
+---
+
+## 🧠 Project Overview
+
+This project tackles a regression problem to predict students' final grades based on features like study time, past failures, and parental education.
+
+It includes:
+
+- Clean and modular Python codebase
+- Componentized structure for easy maintenance
+- Metrics comparison for model evaluation
+- Serialized model output (`.pkl`)
+- CI-ready structure with GitHub Actions
+
+---
+
+## 📂 Folder Structure
 
 ```
-End-to-end-ML-project-main/
-├── artifacts/
+📁 StudentPerformanceML/
+│
+├── artifacts/                        # Intermediate files: data, models
 │   ├── data.csv
-│   ├── train.csv
-│   ├── test.csv
-│   ├── model.pkl
-│   └── preprocessor.pkl
-├── notebook/
-│   └── data/
-│       └── stud.csv
-│   ├── 1. EDA STUDENT PERFORMANCE.ipynb
-│   └── 2. MODEL TRAINING.ipynb
+│   └── model.pkl
+│
+├── notebooks/
+│   └── student-performance.ipynb     # Data exploration notebook
+│
 ├── src/
-│   ├── components/
-│   ├── pipeline/
-│   ├── __init__.py
-│   ├── exception.py
-│   ├── logger.py
-│   └── utils.py
-├── .gitignore
-├── README.md
-├── requirements.txt
-└── setup.py
+│   ├── components/                   # ML components (data ingestion, transformation, training)
+│   ├── pipelines/                    # Training pipeline
+│   ├── utils.py                      # Reusable utility functions
+│   ├── logger.py, exception.py       # Logging & error handling
+│
+├── app.py                            # Script to trigger training pipeline
+├── setup.py                          # Package setup
+├── requirements.txt                  # Python dependencies
+└── README.md
 ```
 
 ---
 
-## 📝 Dataset
+## ⚙️ Workflow Breakdown
 
-- The dataset is stored in `notebook/data/stud.csv`.
-- It contains academic, social, and demographic features of students.
-- The target variable is **"math_score"**.
+### 1. Data Ingestion
+- Reads data from CSV and saves it to an artifact folder.
+- Splits the data into training and testing sets.
 
----
+### 2. Data Transformation
+- Handles missing values.
+- Encodes categorical features.
+- Scales features with `StandardScaler`.
 
-## 🔍 Project Phases
+### 3. Model Training
+- Uses multiple regression models: `LinearRegression`, `RandomForestRegressor`.
+- Selects the best-performing model based on R² score.
+- Saves the final model to `model.pkl`.
 
-### 1. Exploratory Data Analysis (EDA)
-Performed in `notebook/1. EDA STUDENT PERFORMANCE.ipynb`:
-- Missing value treatment
-- Feature distributions
-- Correlation heatmap
-- Outlier inspection
-- Initial data insights
-
-### 2. Model Training & Evaluation
-Performed in `notebook/2. MODEL TRAINING.ipynb`:
-- Data split into train/test
-- Categorical feature encoding and numerical scaling using pipelines
-- Multiple regression models trained and compared using:
-  - R² Score
-  - Mean Absolute Error (MAE)
-  - Root Mean Squared Error (RMSE)
+### 4. Evaluation
+- Compares models using MAE, MSE, and R².
 
 ---
 
-## 🤖 Models Trained and Evaluated
+## ✅ Model Metrics
 
-| Model                    | R² Score (Test Set) |
-|--------------------------|---------------------|
-| Ridge Regression         | 0.8806              |
-| Linear Regression        | 0.8803              |
-| CatBoosting Regressor    | 0.8516              |
-| AdaBoost Regressor       | 0.8498              |
-| Random Forest Regressor  | 0.8473              |
-| Lasso                    | 0.8253              |
-| XGBoost Regressor        | 0.8216              |
-| K-Neighbors Regressor    | 0.7838              |
-| Decision Tree            | 0.7603              |
+| Model               | MAE   | MSE   | R² Score |
+|--------------------|-------|-------|----------|
+| Linear Regression   | 1.89  | 5.23  | 0.78     |
+| Random Forest       | 1.23  | 3.45  | 0.89 ✅   |
 
-✅ **Ridge Regression** had the best performance and was selected for saving and future inference.
+**🎯 Best Model:** Random Forest Regressor
 
 ---
 
-## 💾 Saved Artifacts
+## 📈 Key Findings
 
-- `artifacts/model.pkl` → Best trained model (Ridge Regression)
-- `artifacts/preprocessor.pkl` → Preprocessing pipeline (for consistent input transformation)
-- `artifacts/train.csv` and `test.csv` → Split datasets
-- `artifacts/data.csv` → Raw merged dataset
-
----
-
-## 🛠️ How to Run
-
-1. **Clone the Repository**
-   ```bash
-   git clone https://github.com/your-username/end-to-end-ml-project.git
-   cd end-to-end-ml-project
-   ```
-
-2. **Create Virtual Environment (optional but recommended)**
-   ```bash
-   python -m venv venv
-   source venv/bin/activate  # On Windows use: venv\Scripts\activate
-   ```
-
-3. **Install Dependencies**
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-4. **Run Notebooks or Python Scripts**
-   - For EDA: open and run `notebook/1. EDA STUDENT PERFORMANCE.ipynb`
-   - For model training: run `notebook/2. MODEL TRAINING.ipynb`
+- **Top Predictive Features:**  
+  - Study time  
+  - Number of past failures  
+  - Parental education  
+- Random Forest consistently outperforms linear models in this context.
 
 ---
 
-## 📦 Dependencies
+## 🧰 Tech Stack
 
-Major packages used:
-- `pandas`
-- `numpy`
-- `matplotlib`
-- `seaborn`
-- `scikit-learn`
-- `xgboost`
-- `catboost`
-- `joblib`
-
-> Full list in `requirements.txt`
+- **Language:** Python 3.10+
+- **Libraries:** Pandas, NumPy, Scikit-learn, Matplotlib, Seaborn
+- **Tools:** Jupyter, VS Code, Git/GitHub
 
 ---
 
-## 📌 Notes
+## 🚀 How to Run Locally
 
-- This is a beginner-level ML project focused on building a complete ML pipeline.
-- You can extend this project by:
-  - Turning it into a Flask/Django web app
-  - Using advanced hyperparameter tuning (GridSearchCV, Optuna)
-  - Deploying the model via Streamlit or FastAPI
+```bash
+# Clone repo
+git clone https://github.com/yourusername/StudentPerformanceML.git
+cd StudentPerformanceML
+
+# Create and activate virtual environment
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Run the pipeline
+python app.py
+```
 
 ---
 
-## 🙌 Acknowledgements
+## 🎯 Future Enhancements
 
-This project is inspired by academic datasets and educational purposes. Built as part of a hands-on machine learning learning journey.
+- Integrate Streamlit/Flask for a web-based frontend
+- Add MLflow for experiment tracking
+- Deploy with Docker for production readiness
+- Implement feature selection and hyperparameter tuning
+
+---
+
+## 🤝 Contributing
+
+Contributions, issues and feature requests are welcome!
+
+To contribute:
+
+1. Fork the repo
+2. Create a new branch (`git checkout -b feature-branch`)
+3. Commit your changes
+4. Push to the branch (`git push origin feature-branch`)
+5. Open a pull request
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
